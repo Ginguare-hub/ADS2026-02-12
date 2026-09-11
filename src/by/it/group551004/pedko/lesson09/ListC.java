@@ -9,6 +9,9 @@ public class ListC<E> implements List<E> {
 
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
 
+    Object[] elements;
+    int size = 0;
+
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     //////               Обязательные к реализации методы             ///////
@@ -16,6 +19,7 @@ public class ListC<E> implements List<E> {
     /////////////////////////////////////////////////////////////////////////
     @Override
     public String toString() {
+
         return "";
     }
 
@@ -31,7 +35,7 @@ public class ListC<E> implements List<E> {
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
