@@ -9,9 +9,6 @@ public class ListA<E> implements List<E> {
 
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
 
-    Object[] elements;
-    int size = 0;
-
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
     //////               Обязательные к реализации методы             ///////
@@ -19,11 +16,6 @@ public class ListA<E> implements List<E> {
     /////////////////////////////////////////////////////////////////////////
     @Override
     public String toString() {
-        String result = "[" + elements[0] + "]";
-        for (int i = 1; i < size; ++i)
-        {
-            result = result + " [" + String.valueOf(elements[i]) + "]";
-        }
         return "";
     }
 
