@@ -1,18 +1,35 @@
 package by.it.group551004.pedko.lesson09;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 public class ListA<E> implements List<E> {
 
     //Создайте аналог списка БЕЗ использования других классов СТАНДАРТНОЙ БИБЛИОТЕКИ
 
     private Object[] array;
-    private int size;
-    private int capacity;
+    private int size = 0;
+    private int capacity = 0;
     private static final int DEFAULT_CAPACITY = 5;
+
+    void init() {
+        array = new Object[DEFAULT_CAPACITY];
+        capacity = DEFAULT_CAPACITY;
+        size = 0;
+    }
+
+    void extend() {
+        if (capacity == 0) {
+            init();
+        } else {
+            int newCapacity = array.length * 2;
+            Object[] newArray = new Object[newCapacity];
+            for (int i = 0; i < size; ++i) {
+                newArray[i] = array[i];
+            }
+            array = newArray;
+            capacity = newCapacity;
+        }
+    }
 
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
@@ -36,22 +53,32 @@ public class ListA<E> implements List<E> {
 
     @Override
     public boolean add(E e) {
-        if (size > 0 && size < capacity) {
-            array[size] = e;
-            size++;
+        if (capacity == 0 || size == capacity) {
+            extend();
         }
 
-        return false;
+        array[size] = e;
+        size++;
+        return true;
     }
 
     @Override
     public E remove(int index) {
-        return null;
+        E removed = null;
+
+        if (index < size) {
+            removed = (E) array[index];
+            for (int i = index + 1; i < size; ++i) {
+                array[i-1] = array[i];
+            }
+            size--;
+        }
+        return removed;
     }
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     /////////////////////////////////////////////////////////////////////////
@@ -62,7 +89,16 @@ public class ListA<E> implements List<E> {
 
     @Override
     public void add(int index, E element) {
-
+        if (index < size) {
+            if (size == capacity) {
+                extend();
+            }
+            for (int i = size + 1; i > index; --i) {
+                array[i] = array[i-1];
+            }
+            array[index] = element;
+            size++;
+        }
     }
 
     @Override
@@ -78,7 +114,7 @@ public class ListA<E> implements List<E> {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
 
