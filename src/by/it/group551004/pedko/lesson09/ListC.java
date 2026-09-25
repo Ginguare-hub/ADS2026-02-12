@@ -87,7 +87,7 @@ public class ListC<E> implements List<E> {
     @Override
     public void add(int index, E element) {
         if (index >= 0 && index <= size) {
-            if (size + 1 == capacity) {
+            if (size + 1 >= capacity) {
                 extend();
             }
 
