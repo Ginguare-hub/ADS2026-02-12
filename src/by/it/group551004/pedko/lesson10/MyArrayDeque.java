@@ -7,7 +7,7 @@ import java.util.Iterator;
 
 public class MyArrayDeque<E> implements Deque<E> {
 
-    private final int STD_LEN = 10;
+    private final int STD_LEN = 8;
     private E[] my_deque = (E[]) new Object[STD_LEN];
 
     @Override
