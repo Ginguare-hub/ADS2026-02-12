@@ -3,68 +3,134 @@ package by.it.group551004.pedko.lesson10;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.Iterator;
-//import java.util.NoSuchElementException;
+import java.util.NoSuchElementException;
 
 public class MyArrayDeque<E> implements Deque<E> {
 
-    private final int STD_LEN = 8;
-    private E[] my_deque = (E[]) new Object[STD_LEN];
+    private final int STD_SIZE = 8;
+    private E[] my_deque = (E[]) new Object[STD_SIZE];
+    private int size = 0, capacity = STD_SIZE;
+    private int head = 0, tail = 0;
+
+    private int inc(int index) {
+        index = (index+1) % my_deque.length;
+        return index;
+    }
+
+    private int dec(int index) {
+        index = (index-1 + my_deque.length) % my_deque.length;
+        return index;
+    }
+
+    void extend() {
+        int newCapacity = my_deque.length * 2;
+        E[] new_deque = (E[]) new Object[newCapacity];
+
+        for (int i = 0; i < size; i++) {
+            new_deque[i] = my_deque[(head + i) % my_deque.length];
+        }
+
+        my_deque = new_deque;
+        capacity = newCapacity;
+        head = 0;
+        tail = size;
+    }
+
+
 
     @Override
     public String toString() {
-        return "";
+        StringBuilder sb = new StringBuilder("[");
+        for (int i = 0; i < size; i++) {
+            if (i != 0) {
+                sb.append(", ");
+            }
+            sb.append(my_deque[(head + i) % my_deque.length]);
+        }
+        sb.append("]");
+        return sb.toString();
     }
 
     @Override
     public int size() {
-        return 1;
-    }
-
-    @Override
-    public boolean add(E element) {
-        return false;
+        return size;
     }
 
     @Override
     public void addFirst(E element) {
-
+        if (size == capacity) {
+            extend();
+        }
+        head = dec(head);
+        my_deque[head] = element;
+        size++;
     }
 
     @Override
     public void addLast(E element) {
-
+        if (size == capacity) {
+            extend();
+        }
+        my_deque[tail] = element;
+        tail = inc(tail);
+        size++;
     }
 
     @Override
-    public E element() {
-        return null;
+    public boolean add(E element) {
+        addLast(element);
+        return true;
     }
 
     @Override
     public E getFirst() {
-        return null;
+        if (size == 0) {
+            throw new NoSuchElementException();
+        }
+        return my_deque[head];
     }
 
     @Override
     public E getLast() {
-        return null;
+        if (size == 0) {
+            throw new NoSuchElementException();
+        }
+        return my_deque[dec(tail)];
     }
 
     @Override
-    public E poll() {
-        return null;
+    public E element() {
+        return getFirst();
     }
 
     @Override
     public E pollFirst() {
-        return null;
+        if (size == 0) {
+            return null;
+        }
+        E value = my_deque[head];
+        my_deque[head] = null;   // освобождаем
+        size--;
+        head = inc(head);
+        return value;
     }
 
     @Override
     public E pollLast() {
-        return null;
+        if (size == 0) {
+            return null;
+        }
+        tail = dec(tail);
+        E value = my_deque[tail];
+        my_deque[tail] = null;   // освобождаем
+        size--;
+        return value;
     }
 
+    @Override
+    public E poll() {
+        return pollFirst();
+    }
 
 
 
