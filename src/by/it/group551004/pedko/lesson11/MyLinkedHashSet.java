@@ -8,8 +8,8 @@ public class MyLinkedHashSet<E> implements Set<E> {
 
     private static class Node<E> {
         E value;
-        Node<E> next;        // следующая нода в бакете (цепочка коллизий)
-        Node<E> orderPrev;   // сосед по порядку добавления
+        Node<E> next;
+        Node<E> orderPrev;
         Node<E> orderNext;
 
         Node(E value) {
